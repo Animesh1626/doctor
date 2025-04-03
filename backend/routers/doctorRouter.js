@@ -1,6 +1,5 @@
 const express = require('express');
 const Model = require('../models/doctorModel');
-const { model } = require('../connections');
 
 const router = express.Router();
 const jwt = require('jsonwebtoken');
@@ -23,6 +22,19 @@ router.post('/add', (req, res) => {
 router.get('/getall', (req, res) => {
 
     Model.find()
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+
+});
+
+//getall
+router.get('/getdoctor', verifyToken, (req, res) => {
+
+    Model.findById(req.user._id)
         .then((result) => {
             res.status(200).json(result);
         }).catch((err) => {
@@ -67,6 +79,7 @@ router.get('/getbyid/:id', (req, res) => {
             res.status(500).json(err);
         });
 });
+
 //update
 router.put('/update/:id', (req, res) => {
     Model.findByIdAndUpdate(req.params.id, req.body)

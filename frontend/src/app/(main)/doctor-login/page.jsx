@@ -1,6 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
@@ -14,6 +15,8 @@ const LoginSchema =Yup.object().shape({
 
 
 const login = () => {
+
+  const router=useRouter()
   const loginForm=useFormik({
     initialValues:{
      
@@ -27,6 +30,7 @@ const login = () => {
       .then((result) => {
         toast.success('Login Successful');
         console.log(result.data?.token);
+        router.push('/doctor/profile');
         localStorage.setItem('doctor-token', result.data?.token);
         
       }).catch((err) => {
@@ -205,6 +209,7 @@ const login = () => {
           {/* End Checkbox */}
           <button
             type="submit"
+
             className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
           >
             Log in

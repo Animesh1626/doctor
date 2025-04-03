@@ -9,6 +9,7 @@ const mySchema = new Schema({
     about: String,
     password: { type: String, require: true },
     city: { type: String, default: 'unknown' },
+    avatar: { type: String },
     createdAt: { type: Date, default: Date.now }
 });
 

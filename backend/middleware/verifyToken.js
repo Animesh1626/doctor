@@ -4,6 +4,7 @@ require('dotenv').config();
 const verifyToken = (req,res,next)=>{
 
     const token = req.headers['x-auth-token'];
+    
 
     if(!token){
         res.status(403).json({message:'Token not provided'});

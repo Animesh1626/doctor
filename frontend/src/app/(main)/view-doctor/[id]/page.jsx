@@ -1,11 +1,41 @@
+"use client"
+import { useEffect, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Calendar, Clock, Mail, MapPin, Phone, Star } from "lucide-react"
 import Image from "next/image"
+import { useParams } from "next/navigation";
+import axios from "axios";
 
 export default function DoctorDetails() {
+  const [doctorData , setDoctorData] = useState(null);
+
+  const { id } = useParams();
+
+  const fetchDoctorData = () => {
+    console.log('sjh');
+    
+    axios.get('http://localhost:5000/doctor/getbyid/' + id)
+      .then((result) => {
+        console.log(result.data);
+        setDoctorData(result.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    fetchDoctorData();
+  }, [])
+
+  if (!doctorData) {
+    return <h1>Loading...</h1>
+  }
+
+  
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -23,8 +53,8 @@ export default function DoctorDetails() {
                   priority
                 />
               </div>
-              <h1 className="text-2xl font-bold mb-1">Dr. Sarah Johnson</h1>
-              <p className="text-muted-foreground mb-2">Cardiologist</p>
+              <h1 className="text-2xl font-bold mb-1">{doctorData.name}</h1>
+              <p className="text-muted-foreground mb-2">{doctorData.specialties}</p>
               <div className="flex items-center mb-4">
                 <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
                 <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
