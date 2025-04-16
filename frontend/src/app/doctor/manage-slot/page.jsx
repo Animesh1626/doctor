@@ -45,7 +45,11 @@ const manage = () => {
 
 
     const fetchUserData = () => {
-        axios.get('http://localhost:5000/slot/getall')
+        axios.get('http://localhost:5000/slot/getslots', {
+            headers: {
+                'x-auth-token' : token
+            }
+        })
             .then((res) => {
                 console.log(res.data);
                 setSlotList(res.data);

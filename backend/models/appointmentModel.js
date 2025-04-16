@@ -9,7 +9,8 @@ const mySchema = new Schema({
     slot: { type: Types.ObjectId, ref: 'slot' },
     patient: { type: Types.ObjectId, ref: 'user' },
     createdAt: { type: Date, default: Date.now },
-    status: { type: Boolean, default: false }
+    status: { type: String, default: 'pending' },
+    cancel: { type: Boolean, default: false }
 });
 
 module.exports = model('appointment', mySchema);

@@ -3,8 +3,9 @@ const userRouter =require('./routers/userRouter');
 const doctorRouter =require('./routers/doctorRouter');
 const slotRouter =require('./routers/slotRouter');
 const appointmentRouter =require('./routers/appointmentRouter');
+const reportRouter =require('./routers/reportRouter');
 const cors =require('cors');
-const appointmentModel = require('./models/appointmentModel');
+
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use('/user',userRouter);
 app.use('/doctor',doctorRouter);
 app.use('/slot',slotRouter);
 app.use('/appointment',appointmentRouter);
+app.use('/report',reportRouter);
 // route or endpoint
 app.get('/',(req, res)=>{
     res.send('respond from express');

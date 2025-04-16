@@ -8,15 +8,19 @@ import { Calendar, Clock, Mail, MapPin, Phone, Star } from "lucide-react"
 import Image from "next/image"
 import { useParams } from "next/navigation";
 import axios from "axios";
+import toast from "react-hot-toast"
+const ISSERVER = typeof window === 'undefined';
 
 export default function DoctorDetails() {
-  const [doctorData , setDoctorData] = useState(null);
+  const token = !ISSERVER && localStorage.getItem('user-token');
+  const [doctorData, setDoctorData] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [slotList, setSlotList] = useState([]);
 
   const { id } = useParams();
 
   const fetchDoctorData = () => {
-    console.log('sjh');
-    
+
     axios.get('http://localhost:5000/doctor/getbyid/' + id)
       .then((result) => {
         console.log(result.data);
@@ -26,15 +30,45 @@ export default function DoctorDetails() {
       });
   }
 
+  const fetchSlots = () => {
+
+    axios.get('http://localhost:5000/slot/getbydoctor/' + id)
+      .then((result) => {
+        console.log(result.data);
+        setSlotList(result.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+  const bookAppointment = (slot_id) => {
+    axios.post('http://localhost:5000/appointment/add/', { slot : slot_id },
+      {
+      headers: {
+        'x-auth-token': token
+      }
+    })
+        .then((res) => {
+          console.log(res.data);
+          toast.success("Appointment booked successfully")
+          fetchSlots();
+
+          
+        }).catch((err) => {
+            console.log(err);
+            toast.error("Error booking appointment")
+        });
+  }
+
   useEffect(() => {
     fetchDoctorData();
+    fetchSlots();
   }, [])
 
   if (!doctorData) {
     return <h1>Loading...</h1>
   }
-
-  
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -44,8 +78,8 @@ export default function DoctorDetails() {
           <CardContent className="pt-6">
             <div className="flex flex-col items-center">
               <div className="relative w-40 h-40 rounded-full overflow-hidden mb-4">
-                <Image
-                  src="/placeholder.svg?height=160&width=160"
+                <img
+                  src={doctorData.image}
                   alt="Dr. Sarah Johnson"
                   width={160}
                   height={160}
@@ -67,21 +101,21 @@ export default function DoctorDetails() {
                 <div className="flex items-start">
                   <MapPin className="h-5 w-5 text-muted-foreground mr-2 mt-0.5" />
                   <div>
-                    <p className="text-sm">Heartcare Medical Center</p>
-                    <p className="text-sm text-muted-foreground">123 Health Street, New York, NY 10001</p>
+                    <p className="text-sm">{doctorData.clinicName}</p>
+                    <p className="text-sm text-muted-foreground">{doctorData.clinicAddress}</p>
                   </div>
                 </div>
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 text-muted-foreground mr-2" />
-                  <p className="text-sm">(555) 123-4567</p>
+                  <p className="text-sm">{doctorData.phone}</p>
                 </div>
                 <div className="flex items-center">
                   <Mail className="h-5 w-5 text-muted-foreground mr-2" />
-                  <p className="text-sm">dr.johnson@heartcare.com</p>
+                  <p className="text-sm">{doctorData.email}</p>
                 </div>
                 <div className="flex items-center">
                   <Clock className="h-5 w-5 text-muted-foreground mr-2" />
-                  <p className="text-sm">Mon-Fri: 9:00 AM - 5:00 PM</p>
+                  <p className="text-sm">{doctorData.timing}</p>
                 </div>
               </div>
               <Button className="w-full mt-6">Book Appointment</Button>
@@ -101,31 +135,23 @@ export default function DoctorDetails() {
             <TabsContent value="about" className="mt-6">
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-semibold mb-3">About Dr. Sarah Johnson</h2>
+                  <h2 className="text-xl font-semibold mb-3">About Dr. {doctorData.name}</h2>
                   <p className="text-muted-foreground">
-                    Dr. Sarah Johnson is a board-certified cardiologist with over 15 years of experience in diagnosing
-                    and treating heart conditions. She specializes in preventive cardiology, heart failure management,
-                    and cardiac rehabilitation. Dr. Johnson is known for her patient-centered approach, taking time to
-                    listen to her patients and developing personalized treatment plans.
+                    {doctorData.about}
                   </p>
                 </div>
                 <div>
                   <h2 className="text-xl font-semibold mb-3">Specializations</h2>
                   <div className="flex flex-wrap gap-2">
-                    <Badge>Preventive Cardiology</Badge>
-                    <Badge>Heart Failure Management</Badge>
-                    <Badge>Cardiac Rehabilitation</Badge>
-                    <Badge>Echocardiography</Badge>
-                    <Badge>Coronary Artery Disease</Badge>
-                    <Badge>Hypertension Management</Badge>
+                    <Badge>{doctorData.specialties}</Badge>
+                    
                   </div>
                 </div>
                 <div>
                   <h2 className="text-xl font-semibold mb-3">Languages</h2>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline">English</Badge>
-                    <Badge variant="outline">Spanish</Badge>
-                    <Badge variant="outline">French</Badge>
+                    <Badge variant="outline">{doctorData.languages}</Badge>
+                    
                   </div>
                 </div>
               </div>
@@ -299,12 +325,27 @@ export default function DoctorDetails() {
               <div>
                 <h2 className="text-2xl font-bold mb-4">Book an Appointment</h2>
                 <p className="text-muted-foreground mb-6">
-                  Schedule a consultation with Dr. Sarah Johnson. Please select your preferred date and time.
+                  Schedule a consultation with Dr.{doctorData.name}. Please select your preferred date and time.
                 </p>
-                <div className="flex items-center mb-4">
-                  <Calendar className="h-5 w-5 text-primary mr-2" />
-                  <span>Available: Monday to Friday, 9:00 AM - 5:00 PM</span>
-                </div>
+                {
+                  slotList.map(slot => (
+                    <div className="flex items-center mb-4">
+                      <Calendar className="h-5 w-5 text-primary mr-2" />
+                      <span>Available: {new Date(slot.date).toLocaleDateString()}, {slot.time}</span>
+
+                      <div className="flex items-center justify-between sm:col-span-2">
+                        <button
+                          onClick={() => { bookAppointment(slot._id) }}
+                          type="submit"
+                          className="inline-block rounded-lg bg-green-400 px-6 py-1 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">
+
+                          Book Now
+                        </button>
+                      </div>
+
+                    </div>
+                  ))
+                }
                 <Button className="w-full md:w-auto">Check Availability</Button>
               </div>
               <div className="flex items-center justify-center">

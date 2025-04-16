@@ -1,7 +1,7 @@
 "use client"
 import axios from "axios";
 import { Formik } from "formik";
-import { Router } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast";
 const ISSERVER = typeof window === 'undefined';
@@ -10,6 +10,7 @@ export default function PatientProfile() {
 
   const token = !ISSERVER && localStorage.getItem('user-token');
   const [userData, setUserData] = useState(null);
+  const router = useRouter();
 
   const fetchUserData = async () => {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/getuser`, {
@@ -33,7 +34,7 @@ export default function PatientProfile() {
         console.log(result.data);
         
         resetForm();
-        Router.push('/user-login');
+        router.push('/user-login');
       }).catch((err) => {
         setSubmitting(false);
         toast.error('something went wrong');
@@ -174,10 +175,27 @@ export default function PatientProfile() {
                               Date of Birth <span className="text-red-500">*</span>
                             </label>
                             <input
-                              type="Date"
+                              type="date"
                               id="dateOfBirth"
                               name="dateOfBirth"
                               required
+                              value={form.values.dateOfBirth}
+                              onChange={form.handleChange}
+                              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 py-2 border"
+                            />
+                          </div>
+
+                          <div>
+                            <label
+                              htmlFor="dayeOfBirth"
+                              className="block text-sm font-medium text-gray-700"
+                            >
+                              Show Date Of Birth<span className="text-red-500"></span>
+                            </label>
+                            <input
+                              type=""
+                              id="dateOfBirth"
+                              name="dateOfBirth"
                               value={form.values.dateOfBirth}
                               onChange={form.handleChange}
                               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 py-2 border"

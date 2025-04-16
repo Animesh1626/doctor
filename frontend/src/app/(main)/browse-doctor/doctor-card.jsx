@@ -7,11 +7,11 @@ export default function DoctorCard({ doctor }) {
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
       <div className="relative h-48 bg-gray-200">
-        <Image src={doctor.image || "/placeholder.svg"} alt={doctor.name} fill className="object-cover" />
+        <img src={doctor.image || "/placeholder.svg"} alt={doctor.name} fill className="w-full h-48 object-cover" />
       </div>
       <div className="p-5">
         <h3 className="font-bold text-lg text-gray-900">{doctor.name}</h3>
-        <p className="text-blue-600 mb-2">{doctor.specialty}</p>
+        <p className="text-blue-600 mb-2">{doctor.specialties}</p>
 
         <div className="flex items-center mb-3">
           <Star className="h-5 w-5 text-yellow-400 fill-current" />
