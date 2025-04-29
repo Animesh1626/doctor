@@ -5,13 +5,14 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
+const ISSERVER = typeof window === 'undefined';
 
 
 
 const manage = () => {
 
     const [slotList, setSlotList] = useState([]);
-    const token = localStorage.getItem('doctor-token');
+    const token = !ISSERVER && localStorage.getItem('doctor-token');
 
     const router = useRouter();
     //initializing formik

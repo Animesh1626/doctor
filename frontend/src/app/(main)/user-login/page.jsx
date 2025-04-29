@@ -6,7 +6,7 @@ import { Router, useRouter } from 'next/navigation';
 import React from 'react'
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-
+const ISSERVER = typeof window === 'undefined';
 const LoginSchema = Yup.object().shape({
 
   email: Yup.string().email('Invalid Password').required('required'),
@@ -34,7 +34,7 @@ const Login = () => {
           toast.success('Login Successful');
           router.push('/user-menu');
           console.log(result.data?.token);
-          localStorage.setItem('user-token', result.data?.token);
+          !ISSERVER && localStorage.setItem('user-token', result.data?.token);
           setUserLoggedIn(true);
         }).catch((err) => {
           console.log(err);
