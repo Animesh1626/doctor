@@ -72,7 +72,7 @@ const ViewReport = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen mt-22 bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8 text-blue-600">View Report</h1>
 
@@ -85,7 +85,7 @@ const ViewReport = () => {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Doctor Name</p>
-              <p className="text-lg font-semibold text-gray-800">{reportData?.appointment?.slot?.doctor?.name}</p>
+              <p className="text-lg font-semibold text-gray-800">Dr. {reportData?.appointment?.slot?.doctor?.name} {reportData?.appointment?.slot?.doctor?.lastName}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Date</p>

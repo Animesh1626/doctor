@@ -34,7 +34,7 @@ export default function PatientProfile() {
         console.log(result.data);
         
         resetForm();
-        router.push('/user-login');
+        router.push('/user-menu');
       }).catch((err) => {
         setSubmitting(false);
         toast.error('something went wrong');
@@ -68,7 +68,7 @@ export default function PatientProfile() {
 
   return (
 
-    <div>
+    <div className="mt-22">
       <>{
         userData == null ? (
           <p>Loading ... </p>

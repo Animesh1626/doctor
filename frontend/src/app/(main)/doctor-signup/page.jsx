@@ -29,10 +29,7 @@ const page = () => {
   const signupForm = useFormik({
     initialValues:{
       name:'',
-      specialties:'',
-      experience:'',
-      location:'',
-      about:'',
+      phone:'',
       email:'',
       password:'',
       confirmPassword:''
@@ -46,7 +43,7 @@ const page = () => {
       .then((result) => {
         toast.success('user registered successfully');
         resetForm();
-        router.push('/user-login');
+        router.push('/doctor-login');
       }).catch((err) => {
         toast.error('something went wrong');
         setSubmitting(false);
@@ -56,7 +53,7 @@ const page = () => {
     validationSchema: SignupSchema
   })
   return (
-    <div className='max-w-xl mx-auto'>
+    <div className='mt-40 max-w-xl mx-auto'>
       <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-900 dark:border-neutral-700">
   <div className="p-4 sm:p-7">
     <div className="text-center">
@@ -128,17 +125,18 @@ const page = () => {
           
           <div>
             <label
-              htmlFor="specialties"
+              htmlFor="phone"
               className="block text-sm mb-2 dark:text-white"
             >
-              Specialties
+              Phone Number
             </label>
             <div className="relative">
               <input
-                type="text"
-                id="specialties"
+                type="tel"
+                id="phone"
+                name="phone"
                 onChange={signupForm.handleChange}
-                value={signupForm.values.specialties}
+                value={signupForm.values.phone}
                 className="border py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 required=""
                 aria-describedby="specialties-error"
@@ -157,137 +155,16 @@ const page = () => {
               </div>
             </div>
             {
-              (signupForm.touched.specialties && signupForm.errors.specialties) && 
+              (signupForm.touched.phone && signupForm.errors.phone) && 
               (
                 <p className=" text-xs text-red-600 mt-2" id="email-error">
-            {signupForm.errors.specialties}
+            {signupForm.errors.phone}
             </p>
               )
             }
           </div>
 
-            {/*experiance*/}
-            <div>
-            <label
-              htmlFor="experience"
-              className="block text-sm mb-2 dark:text-white"
-            >
-              Experience
-            </label>
-            <div className="relative">
-              <input
-                type="number"
-                id="experience"
-                onChange={signupForm.handleChange}
-                value={signupForm.values.experience}
-                className="border py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                required=""
-                aria-describedby="experience-error"
-              />
-              <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                <svg
-                  className="size-5 text-red-500"
-                  width={16}
-                  height={16}
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                  aria-hidden="true"
-                >
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                </svg>
-              </div>
-            </div>
-            {
-              (signupForm.touched.experience && signupForm.errors.experience) && 
-              (
-                <p className=" text-xs text-red-600 mt-2" id="email-error">
-            {signupForm.errors.experience}
-            </p>
-              )
-            }
-          </div>
-
-          {/*location*/}
-          <div>
-            <label
-              htmlFor="location"
-              className="block text-sm mb-2 dark:text-white"
-            >
-              Location
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                id="location"
-                onChange={signupForm.handleChange}
-                value={signupForm.values.location}
-                className="border py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                required=""
-                aria-describedby="location-error"
-              />
-              <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                <svg
-                  className="size-5 text-red-500"
-                  width={16}
-                  height={16}
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                  aria-hidden="true"
-                >
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                </svg>
-              </div>
-            </div>
-            {
-              (signupForm.touched.location && signupForm.errors.location) && 
-              (
-                <p className=" text-xs text-red-600 mt-2" id="email-error">
-            {signupForm.errors.location}
-            </p>
-              )
-            }
-          </div>
-
-           {/*location*/}
-           <div>
-            <label
-              htmlFor="About"
-              className="block text-sm mb-2 dark:text-white"
-            >
-              About
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                id="about"
-                onChange={signupForm.handleChange}
-                value={signupForm.values.about}
-                className="border py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                required=""
-                aria-describedby="about-error"
-              />
-              <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                <svg
-                  className="size-5 text-red-500"
-                  width={16}
-                  height={16}
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                  aria-hidden="true"
-                >
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                </svg>
-              </div>
-            </div>
-            {
-              (signupForm.touched.about && signupForm.errors.about) && 
-              (
-                <p className=" text-xs text-red-600 mt-2" id="email-error">
-            {signupForm.errors.about}
-            </p>
-              )
-            }
-          </div>
+          {/* End Form Group */}
 
           <div>
             <label
@@ -380,7 +257,7 @@ const page = () => {
             </label>
             <div className="relative">
               <input
-                type="text"
+                type="password"
                 id="confirmPassword"
                 onChange={signupForm.handleChange}
                 value={signupForm.values.confirmPassword}
@@ -411,29 +288,8 @@ const page = () => {
             }
           </div>
           {/* End Form Group */}
-          {/* Checkbox */}
-          <div className="flex items-center">
-            <div className="flex">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-              />
-            </div>
-            <div className="ms-3">
-              <label htmlFor="remember-me" className="text-sm dark:text-white">
-                I accept the{" "}
-                <a
-                  className="text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500"
-                  href="#"
-                >
-                  Terms and Conditions
-                </a>
-              </label>
-            </div>
-          </div>
-          {/* End Checkbox */}
+         
+         
           <button
           disabled={signupForm.isSubmitting}
             type="submit"

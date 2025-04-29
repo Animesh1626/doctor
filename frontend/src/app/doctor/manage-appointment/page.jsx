@@ -74,7 +74,7 @@ const ManageAppointment = () => {
   };
 
   return (
-    <div>
+    <div className='mt-30'>
       <div className='max-w-[80%] mx-auto'>
         <h1 className='text-center font-bold text-4xl'>Manage Appointments</h1>
 
@@ -89,6 +89,7 @@ const ManageAppointment = () => {
               <th>Action</th>
               <th>Status</th>
               <th>Report</th>
+              <th>View</th>
             </tr>
           </thead>
           <tbody className='border-2'>
@@ -97,8 +98,8 @@ const ManageAppointment = () => {
               const rowColor = appointment.cancel
                 ? 'bg-red-200' // Canceled
                 : appointment.status === 'Success'
-                ? 'bg-green-200' // Success
-                : 'bg-white-100'; // Pending
+                  ? 'bg-green-200' // Success
+                  : 'bg-white-100'; // Pending
 
               return (
                 <tr
@@ -107,35 +108,45 @@ const ManageAppointment = () => {
                 >
                   <td className='p-3'>{index + 1}</td>
                   <td className='p-3'>{appointment?.patient?.name}</td>
-                  <td className='p-3'>{appointment?.slot?.doctor?.name}</td>
+                  <td className='p-3'>Dr. {appointment?.slot?.doctor?.name}</td>
                   <td className='p-3'>{appointment?.slot?.date.slice(0, 10)}</td>
                   <td className='p-3'>{appointment?.slot?.time}</td>
                   <td className='p-3'>
                     <button
-                      className={`px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-white ${
-                        appointment.disabled
+                      className={`px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-white font-medium shadow-md transition duration-300 ${appointment.disabled
                           ? 'bg-gray-400 cursor-not-allowed'
-                          : 'bg-red-500 hover:bg-red-600'
-                      }`}
+                          : 'bg-red-500 hover:bg-red-600 focus:ring-2 focus:ring-red-300'
+                        }`}
                       onClick={() => cancelAppointment(appointment._id)}
                       disabled={appointment.disabled} // Disable the button if the appointment is canceled
                     >
-                      <span>&#x2716;</span> {/* Unicode for a cancel icon */}
+                      <span className="text-lg">&#x2716;</span> {/* Unicode for a cancel icon */}
                       <span>Cancel</span>
                     </button>
                   </td>
                   <td className='p-3'>{appointment?.cancel ? 'Canceled' : appointment?.status}</td>
                   <td className='p-3'>
                     <button
-                      className={`px-4 py-2 rounded-lg text-white ${
-                        appointment.disabled
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'bg-green-500 hover:bg-green-600'
-                      }`}
+                      className={`px-4 py-2 rounded-lg text-white ${appointment.disabled
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-green-500 hover:bg-green-600'
+                        }`}
                       onClick={() => viewReport(appointment._id)}
                       disabled={appointment.disabled} // Disable the button if the appointment is canceled
                     >
                       To Generate a Report
+                    </button>
+                  </td>
+                  <td className='p-3'>
+                    <button
+                      className={`px-4 py-2 rounded-lg text-white ${appointment.disabled
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-blue-500 hover:bg-blue-600'
+                      }`}
+                      onClick={() => router.push(`/doctor/view-appointment/${appointment._id}`)}
+                      disabled={appointment.disabled}
+                    >
+                      View Appointment
                     </button>
                   </td>
                 </tr>

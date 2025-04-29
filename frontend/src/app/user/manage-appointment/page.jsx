@@ -27,7 +27,7 @@ const ManageAppointment = () => {
   }, []);
 
   return (
-    <div>
+    <div className='mt-30'>
       <div className='max-w-[80%] mx-auto'>
         <h1 className='text-center font-bold text-4xl'>Manage Appointments</h1>
 
@@ -61,7 +61,7 @@ const ManageAppointment = () => {
                 >
                   <td className='p-3'>{index + 1}</td>
                   <td className='p-3'>{appointment?.patient?.name}</td>
-                  <td className='p-3'>{appointment?.slot?.doctor?.name}</td>
+                  <td className='p-3'>Dr. {appointment?.slot?.doctor?.name}</td>
                   <td className='p-3'>{appointment?.slot?.date.slice(0, 10)}</td>
                   <td className='p-3'>{appointment?.slot?.time}</td>
                   <td className='p-3'>{appointment?.cancel ? 'Canceled' : appointment?.status}</td>
@@ -79,26 +79,26 @@ const ManageAppointment = () => {
                       Join Meeting
                     </a>
                   </td>
-                  <td>
+                  <td className='p-3'>
                     <Link
                       href={`/user/view-report/${appointment._id}`}
-                      className={`bg-green-400 p-2 rounded-md ${
+                      className={`p-2 rounded-md text-center block ${
                         appointment.disabled
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'hover:bg-green-500'
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed' // Disabled state
+                          : 'bg-green-400 text-white hover:bg-green-500' // Enabled state
                       }`}
                       onClick={(e) => appointment.disabled && e.preventDefault()}
                     >
                       View Report
                     </Link>
                   </td>
-                  <td>
+                  <td className='p-3'>
                     <Link
                       href={`/user/view-appointment/${appointment._id}`}
-                      className={`bg-green-400 p-2 rounded-md ${
+                      className={`p-2 rounded-md text-center block ${
                         appointment.disabled
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'hover:bg-green-500'
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed' // Disabled state
+                          : 'bg-green-400 text-white hover:bg-green-500' // Enabled state
                       }`}
                       onClick={(e) => appointment.disabled && e.preventDefault()}
                     >

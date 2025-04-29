@@ -1,7 +1,5 @@
-//slot id 
-//patient id 
-//status
-//created at
+
+
 
 const { Schema, model, Types } = require('../connections');
 

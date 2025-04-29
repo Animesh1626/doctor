@@ -139,7 +139,7 @@ useEffect(() => {
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       results = results.filter(
-        (doctor) => doctor.name.toLowerCase().includes(query) || doctor.specialty.toLowerCase().includes(query),
+        (doctor) => doctor.name.toLowerCase().includes(query) || doctor.specialization.toLowerCase().includes(query),
       )
     }
 
@@ -147,9 +147,9 @@ useEffect(() => {
   }, [searchQuery, selectedCategory])
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen mt-17 bg-gray-50">
       {/* Hero section with search */}
-      <div className="bg-gradient-to-r from-blue-500 to-cyan-500 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-gradient-to-r from-teal-500 to-cyan-500 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">Find and Book the Best Doctors</h1>
           <p className="text-white text-center text-lg mb-8 max-w-3xl mx-auto">

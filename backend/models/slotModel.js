@@ -1,7 +1,4 @@
-// doctor: string
-// time : String
-// date : Date
-// booked : boolean, default : false
+
 const { Schema, model, Types } = require('../connections');
 
 const mySchema = new Schema({

@@ -63,122 +63,112 @@ const manage = () => {
     }, []);
 
     return (
-        <div>
-            <div className="bg-white py-6 sm:py-8 lg:py-12">
-                <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
-                    {/* text - start */}
-                    <div className="mb-10 md:mb-16">
-                        <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">
-                            Manage-Slot
-                        </h2>
-                        <p className="mx-auto max-w-screen-md text-center text-gray-500 md:text-lg">
+        <div className="bg-gray-50 mt-22 min-h-screen py-12 px-6">
+            <div className="max-w-6xl mx-auto">
+                {/* Page Header */}
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Manage Slots</h2>
+                    <p className="text-gray-600">
+                        Add and manage your available slots for appointments.
+                    </p>
+                </div>
 
-                        </p>
-                    </div>
-                    {/* text - end */}
-                    {/* form - start */}
+                {/* Form Section */}
+                <div className="bg-white shadow-md rounded-lg p-6 mb-12">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-6">Add Slot</h3>
                     <form
                         onSubmit={slotForm.handleSubmit}
-                        className="mx-auto grid max-w-screen-md gap-4 sm:grid-cols-2">
-
-                        <div className="sm:col-span-2">
-
+                        className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+                    >
+                        {/* Time Input */}
+                        <div>
                             <label
                                 htmlFor="time"
-                                className="mb-2 inline-block text-sm text-gray-800 sm:text-base"
+                                className="block text-sm font-medium text-gray-700 mb-2"
                             >
                                 Time
                             </label>
                             <input
                                 name="time"
-                                className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
+                                type="time"
+                                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
                                 onChange={slotForm.handleChange}
                                 value={slotForm.values.time}
                             />
+                            {slotForm.touched.time && slotForm.errors.time && (
+                                <p className="text-xs text-red-600 mt-2">{slotForm.errors.time}</p>
+                            )}
                         </div>
 
-                        {
-                            (slotForm.touched.time && slotForm.errors.time) &&
-                            (
-                                <p className=" text-xs text-red-600 mt-2" id="email-error">
-                                    {slotForm.errors.time}
-                                </p>
-                            )
-                        }
-
-                        <div className="sm:col-span-2">
+                        {/* Date Input */}
+                        <div>
                             <label
                                 htmlFor="date"
-                                className="mb-2 inline-block text-sm text-gray-800 sm:text-base"
+                                className="block text-sm font-medium text-gray-700 mb-2"
                             >
                                 Date
                             </label>
                             <input
                                 name="date"
-                                type='date'
-                                className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"
+                                type="date"
+                                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
                                 onChange={slotForm.handleChange}
                                 value={slotForm.values.date}
                             />
+                            {slotForm.touched.date && slotForm.errors.date && (
+                                <p className="text-xs text-red-600 mt-2">{slotForm.errors.date}</p>
+                            )}
                         </div>
 
-                        {
-                            (slotForm.touched.date && slotForm.errors.date) &&
-                            (
-                                <p className=" text-xs text-red-600 mt-2" id="email-error">
-                                    {slotForm.errors.date}
-                                </p>
-                            )
-                        }
-
-                        <div className="flex items-center justify-between sm:col-span-2">
+                        {/* Submit Button */}
+                        <div className="sm:col-span-2 flex justify-between items-center">
                             <button
                                 disabled={slotForm.isSubmitting}
                                 type="submit"
-                                className="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">
-
-                                {
-                                    slotForm.isSubmitting ? <IconLoader3 className='animate-spin' /> :
-                                        <IconSend2 />
-                                }
-                                Send
+                                className="inline-flex items-center justify-center px-6 py-3 bg-indigo-500 text-white font-medium rounded-lg hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150"
+                            >
+                                {slotForm.isSubmitting ? (
+                                    <IconLoader3 className="animate-spin" />
+                                ) : (
+                                    <IconSend2 />
+                                )}
+                                <span className="ml-2">Add Slot</span>
                             </button>
                             <span className="text-sm text-gray-500">*Required</span>
                         </div>
-
                     </form>
-                    {/* form - end */}
                 </div>
 
-                <div>
-                    <div className='max-w[80%] mx-auto'>
-                        <h1 className='text-3xl font-bold text-center text-black'>List</h1>
-                        <table className='w-full mt-10 border-2 border-blue-200'>
-                            <thead className='bg-blue-700 text-white'>
-                                <tr>
-                                    <th>S.no:</th>
-                                    <th>Id</th>
-                                    <th>Time</th>
-                                    <th>Date</th>
+                {/* Table Section */}
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-6">Slot List</h3>
+                    <table className="w-full border-collapse border border-gray-200">
+                        <thead className="bg-indigo-500 text-white">
+                            <tr>
+                                <th className="py-3 px-4 text-left">S.No</th>
+                                <th className="py-3 px-4 text-left">ID</th>
+                                <th className="py-3 px-4 text-left">Time</th>
+                                <th className="py-3 px-4 text-left">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {slotList.map((slot, index) => (
+                                <tr
+                                    key={slot._id}
+                                    className={`${
+                                        index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                                    } hover:bg-gray-100`}
+                                >
+                                    <td className="py-3 px-4">{index + 1}</td>
+                                    <td className="py-3 px-4">{slot._id}</td>
+                                    <td className="py-3 px-4">{slot.time}</td>
+                                    <td className="py-3 px-4">{slot.date}</td>
                                 </tr>
-                            </thead>
-                            <tbody className='border-2 text-red-400'>
-                                {
-                                    slotList.map((slot, index) => {
-                                        return <tr key={slot._id} className='text-center border-2 border-blue-200 '>
-                                            <td className='p-3'>{index + 1}</td>
-                                            <td className='p-3'>{slot._id}</td>
-                                            <td className='p-3'>{slot.time}</td>
-                                            <td className='p-3'>{slot.date}</td>
-                                        </tr>
-                                    })
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
         </div>
     )
 }

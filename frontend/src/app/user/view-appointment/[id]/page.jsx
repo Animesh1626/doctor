@@ -38,7 +38,7 @@ const ViewAppointment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen mt-22 bg-gray-50 p-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">View Appointment</h1>
 
@@ -51,7 +51,7 @@ const ViewAppointment = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Doctor Name</label>
-              <p className="text-gray-800">{appointmentData?.slot?.doctor?.name}</p>
+              <p className="text-gray-800">Dr. {appointmentData?.slot?.doctor?.name} {appointmentData?.slot?.doctor?.lastName}</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
@@ -69,8 +69,8 @@ const ViewAppointment = () => {
           </div>
 
           <div className="mt-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Notes</h3>
-            <p className="text-gray-800">{appointmentData?.notes || 'No additional notes provided.'}</p>
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">Doctor Specailties</h3>
+            <p className="text-gray-800">{appointmentData?.slot?.doctor?.specialties }</p>
           </div>
         </div>
       </div>
