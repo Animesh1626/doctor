@@ -2,10 +2,12 @@
 import { IconLoader3, IconSend2 } from '@tabler/icons-react';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
+
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -22,7 +24,7 @@ const SignupSchema = Yup.object().shape({
   .oneOf([Yup.ref('password'),null], 'password must matched')
 });
 
-const page = () => {
+const UserSignupPage = () => {
 
   const router = useRouter();
   //initializing formik
@@ -307,4 +309,4 @@ const page = () => {
   )
 }
 
-export default page;
+export default UserSignupPage;

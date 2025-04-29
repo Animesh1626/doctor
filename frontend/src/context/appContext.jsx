@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from "next/navigation";
+const ISSERVER = typeof window === 'undefined';
 
 const { createContext, useContext, useState } = require("react");
 
@@ -11,31 +12,31 @@ export const AppProvider = ({ children }) => {
     const router = useRouter();
 
     const [userLoggedIn, setUserLoggedIn] = useState(() => {
-        const token = localStorage.getItem("user-token") || localStorage.getItem("doctor-token");
+        const token = !ISSERVER && localStorage.getItem("user-token") || !ISSERVER && localStorage.getItem("doctor-token");
         return token ? true : false;
     });
 
     const logout = () => {
-        const doctor = localStorage.getItem("doctor-token");
-        const user = localStorage.getItem("user-token");
+        const doctor = !ISSERVER && localStorage.getItem("doctor-token");
+        const user = !ISSERVER && localStorage.getItem("user-token");
         if(doctor) {
-            localStorage.removeItem("doctor-token");
+            !ISSERVER && localStorage.removeItem("doctor-token");
             setUserLoggedIn(false);
             router.replace("/doctor-login");
         }else{
-            localStorage.removeItem("user-token");
+            !ISSERVER && localStorage.removeItem("user-token");
             setUserLoggedIn(false);
             router.replace("/user-login");
         }
     }
 
     const [doctorLoggedIn, setDoctorLoggedIn] = useState(() => {
-        const token = localStorage.getItem("doctor-token");
+        const token = !ISSERVER && localStorage.getItem("doctor-token");
         return token ? true : false;
     });
 
     const doctorlogout = () => {
-        localStorage.removeItem("doctor-token");
+        !ISSERVER && localStorage.removeItem("doctor-token");
         setDoctorLoggedIn(false);
         router.replace("/doctor-login");
     }
